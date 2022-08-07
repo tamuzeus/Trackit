@@ -1,7 +1,42 @@
 import trackit from "../assents/trackit.png";
 import styled from "styled-components";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { postSignUp } from "../services/trackit";
 
-export default function Login() {
+export default function SignUp() {
+    const navigate = useNavigate()
+
+    const [form, SetForm] = useState({
+        email: '',
+        name: '',
+        image: '',
+        password: '',
+    })
+
+    function handleForm(e) {
+        e.preventDefault();
+
+        SetForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        });
+    }
+
+    function sendForm() {
+        const body = {
+            ...form
+        }
+
+        const promise = postSignUp(body)
+        promise.catch(res => {
+            alert('Email em uso ou campos inválidos, tente utilizar outro!')
+        })
+        promise.then(res => {
+            alert('Conta criada!')
+            navigate('/')
+        })
+    }
 
     return (
 
@@ -10,23 +45,25 @@ export default function Login() {
                 <img src={trackit} alt="trackit"></img>
             </div>
 
-            <DivLoginInfos>
-                <Input type="email" placeholder="email" />
-                <Input type="password" placeholder="senha" />
-            </DivLoginInfos>
+            <Forml onSubmit={handleForm}>
+                <DivLoginInfos>
+                    <Input id="Email" type="email" placeholder="Email" onChange={handleForm} name='email' value={form.email} required />
+                    <Input id="Password" type="password" placeholder="Senha" onChange={handleForm} name='password' value={form.password} required />
+                    <Input id="Name" type="text" placeholder="Nick" onChange={handleForm} name='name' value={form.name} required />
+                    <Input id="Image" type="url" placeholder="URL da imagem" onChange={handleForm} name='image' value={form.image} required />
+                </DivLoginInfos>
 
-            <div>
-                <ButtonEnter>
-                    <p>Entrar</p>
-                </ButtonEnter>
-            </div>
+                <div>
+                    <ButtonEnter onClick={sendForm}>
+                        <p> Cadastrar</p>
+                    </ButtonEnter>
+                </div>
+            </Forml>
 
+            <ButtonSignUp>
+                <Link to='/'><p>Já tem uma conta? Faça Login!</p></Link>
+            </ButtonSignUp>
 
-            <div>
-                <ButtonSignUp >
-                    <p>Não tem uma conta? Cadastre-se!</p>
-                </ButtonSignUp>
-            </div>
         </ArticleComponent>
     )
 }
@@ -38,6 +75,13 @@ const ArticleComponent = styled.article`
    align-items: center;
    width: 100vw;
    height: 100vh;
+`;
+
+const Forml = styled.form`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 `;
 
 
@@ -60,12 +104,15 @@ const ButtonEnter = styled.button`
     -moz-osx-font-smoothing: inherit;
     -webkit-appearance: none;
     width: 303px;
-    height: 45px;
     left: 36px;
     top: 381px;
     background: #52B6FF;
     border-radius: 4.63636px;
     margin-bottom: 25px;
+
+    Link{
+        text-decoration: none;
+    }
 
     p{
         color: white;
@@ -75,6 +122,8 @@ const ButtonEnter = styled.button`
         font-size: 20.976px;
         line-height: 26px;
         text-align: center;
+        padding: 10px;
+        text-decoration: none;
     }
 `
 
@@ -92,8 +141,7 @@ const ButtonSignUp = styled.button`
     -moz-osx-font-smoothing: inherit;
     -webkit-appearance: none;
 
-    p{
-        
+    p{     
     height: 17px;
     left: 74px;
     top: 451px;
