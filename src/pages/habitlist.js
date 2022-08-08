@@ -3,23 +3,23 @@ import Footer from "../components/footer"
 import styled from "styled-components";
 import Createhabit from "../components/createhabit";
 import Habits from "../components/habits";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import UserContext from "../context/context";
+import { getHabits } from "../services/trackit";
 
 export default function Habitslist() {
 
-    const { id, setId } = useContext(UserContext);
-    const { name, setName } = useContext(UserContext);
-    const { image, setImage } = useContext(UserContext);
-    const { token, setToken } = useContext(UserContext);
-    const { bearertoken, setBearerToken } = useContext(UserContext);
+    const { newhabit, SetNewhabit, habits, setHabits, bearertoken} = useContext(UserContext);
 
-    console.log(id)
-    console.log(name)
-    console.log(image)
-    console.log(token)
-    console.log(bearertoken)
-
+    useEffect(() => {
+        const promise = getHabits(bearertoken)
+        promise.catch((res) => {
+            console.log('error')
+        })
+        promise.then((res) => {
+            setHabits(res.data)
+        })
+    }, [])
 
     return (
         <>
@@ -28,22 +28,23 @@ export default function Habitslist() {
                 <MyHabitsBody>
                     <MyHabits>
                         <p>Meus hábitos</p>
-                        <Buttonplus><p>+</p></Buttonplus>
+                        <Buttonplus onClick={() => { SetNewhabit(true) }}><p>+</p></Buttonplus>
                     </MyHabits>
 
-                    <Createhabit/>
-                    <Habits/>
+                    {newhabit ? <Createhabit /> : <></>}
 
-                    <Nohabits>
-                        <p>
-                            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-                        </p>
-                    </Nohabits>
+
+                    {habits.length !== 0 ? 
+                        <Habits /> :
+                        <Nohabits>
+                            <p>
+                                Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+                            </p>
+                        </Nohabits>}
 
                 </MyHabitsBody>
             </HabitsBody>
             <Footer />
-
         </>
     )
 }
@@ -54,13 +55,13 @@ const HabitsBody = styled.div`
     width: 100vw;
 `
 
-const MyHabitsBody = styled.div `
+const MyHabitsBody = styled.div`
     padding-top: 95px;
     display: flex;
     flex-direction: column;
     margin-left: 20px;
   `
-const MyHabits = styled.div `
+const MyHabits = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -103,7 +104,7 @@ const Buttonplus = styled.button`
         color: white;
     }
 `
-const Nohabits = styled.div `
+const Nohabits = styled.div`
     width: 338px;
     height: 74px;
     font-family: 'Lexend Deca';
@@ -112,5 +113,5 @@ const Nohabits = styled.div `
     font-size: 17.976px;
     line-height: 22px;
     color: #666666;
-
+    margin-top: 20px;
 `

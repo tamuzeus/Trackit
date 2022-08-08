@@ -12,18 +12,18 @@ function postLogin(infos) {
   return promise;
 }
 
-function postHabits(infos) {
-  const promise = axios.post(`${BASE_URL}/habits`, infos);
+function postHabits(infos, token) {
+  const promise = axios.post(`${BASE_URL}/habits`, infos, token);
   return promise;
 }
 
-function getHabits() {
-    const promise = axios.get(`${BASE_URL}/habits`);
+function getHabits(token) {
+    const promise = axios.get(`${BASE_URL}/habits`, token);
     return promise;
 } 
 
-function deleteHabits(habit_id) {
-    const promise = axios.delete(`${BASE_URL}/habits/${habit_id}`);
+function deleteHabits(habit_id, token) {
+    const promise = axios.delete(`${BASE_URL}/habits/${habit_id}`, token);
     return promise;
 }
 
@@ -42,9 +42,5 @@ function uncheckHabits(habit_id) {
     return promise;
 }
 
-function getHistory() {
-    const promise = axios.get(`${BASE_URL}/habits/history/daily`);
-    return promise;
-} 
 
-export { postSignUp, postLogin, postHabits, getHabits, deleteHabits, getHabitsToday, checkHabits, uncheckHabits, getHistory};
+export { postSignUp, postLogin, postHabits, getHabits, deleteHabits, getHabitsToday, checkHabits, uncheckHabits};

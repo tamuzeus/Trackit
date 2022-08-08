@@ -42,7 +42,6 @@ export default function Login() {
         const promise = postLogin(body)
         setload(true)
 
-
         promise.catch(res => {
             alert('Login inválido!');
             setClicked(false)
@@ -51,22 +50,21 @@ export default function Login() {
         })
         promise.then(res => {
             setload(false)
+            const token = res.data.token
 
             const Bearertoken = {
                 headers: {
-                    Authorization: `Bearer ${res.data.token}`
+                    "Authorization": `Bearer ${token}`
                 }
             }
-            const token = res.data.token
 
             setId(res.data.id)
             setName(res.data.name)
             setImage(res.data.image)
-            setToken(res.data.token)
+            setToken(token)
             setBearerToken(Bearertoken)
 
-
-            navigate('/habitos');
+            navigate('/hoje');
         })
     }
 

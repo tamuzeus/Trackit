@@ -1,41 +1,74 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { daysarray } from "../services/daysarray";
+import { getHabits } from "../services/trackit";
+import { useContext } from "react";
+import UserContext from "../context/context";
+import { deleteHabits } from "../services/trackit";
 
-function Letters({ res, index, condition}) {
-
-    const [areacolor, setAreacolor] = useState(false)
-    const [lettercolor, setLettercolor] = useState(false)
+function Letters({ name, days }) {
+    
+    const dicionary = {D: 0, S:1, T:2, Q:3, Q:4, S:5, S:6}
+    const changeColor = days.includes(dicionary[name])
 
     return (
-
-        <DayButtons background={areacolor} color={lettercolor} key={index} onClick={() => {
-            setLettercolor(!lettercolor)
-            setAreacolor(!areacolor)
-        }}>{res}</DayButtons>
+        <DayButtons changeColor={changeColor}>
+            <p>{name}</p>
+        </DayButtons>
     )
 }
 
-export default function Habits() {
+function BodyHabit({name, days, del}) {
 
     return (
         <HabitBody>
             <SuperiorBody>
-                <HabitName>Exemplo</HabitName>
-                <Trash>
+                <HabitName>{name}</HabitName>
+                <Trash onClick={() => del}>
                     <ion-icon name="trash-outline"></ion-icon>
                 </Trash>
             </SuperiorBody>
             <div>
-                {daysarray.map((res, index) => {
+                {daysarray.map((value, index) => {
                     return (<Letters
-                        res={res.dia}
+                        name={value.dia}
                         key={index}
-                        codition={res.condition}
+                        days={days}
                     />)
                 })}
             </div>
         </HabitBody>
+    )
+}
+
+export default function Habits() {
+    const { bearertoken, setBearerToken, id, habits, setHabits } = useContext(UserContext);
+
+    useEffect(() => {
+        const promise = getHabits(bearertoken)
+        promise.catch((res) => {
+            console.log('error')
+        })
+        promise.then((res) => {
+            setHabits(res.data)
+        })
+    }, [])
+
+    function deletebutton (){
+        const promise = deleteHabits(id, bearertoken)
+        promise.catch(console.log('error'))
+        promise.then(console.log('ok'))
+    }
+
+    return (
+        <>
+        {habits.map((array, index) => <BodyHabit
+        name={array.name}
+        days={array.days}
+        del={deletebutton}
+        key={index}
+        />)}
+        </>
     )
 }
 
@@ -46,6 +79,7 @@ const HabitBody = styled.div`
     background: #FFFFFF;
     border-radius: 5px;
     margin-top: 10px;
+    overflow-y: auto;
 `
 
 const HabitName = styled.div`
@@ -102,8 +136,8 @@ const DayButtons = styled.button`
     font-weight: 400;
     font-size: 19.976px;
     line-height: 25px;
-    color: ${props => props.color ? '#FFFFFF' : '#DBDBDB;'};
-    background: ${props => props.background ? '#CFCFCF' : '#FFFFFF'};
+    color: ${props => props.changeColor ? '#FFFFFF' : '#DBDBDB;'};
+    background: ${props => props.changeColor ? '#CFCFCF' : '#FFFFFF'};
     border: 1px solid #D5D5D5;
     border-radius: 5px;
     margin-right: 4px;

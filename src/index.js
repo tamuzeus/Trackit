@@ -13,17 +13,19 @@ import Today from "./pages/today";
 
 
 function App() {
- 
+
     const [id, setId] = useState([]);
     const [name, setName] = useState([]);
     const [image, setImage] = useState([]);
     const [token, setToken] = useState([]);
     const [bearertoken, setBearerToken] = useState([]);
+    const [newhabit, SetNewhabit] = useState(false)
+    const [habits, setHabits] = useState([])
 
     return (
         <BrowserRouter>
             <Reset />
-            <UserContext.Provider value={{id, setId, name, setName, image, setImage, token, setToken, bearertoken, setBearerToken}}>
+            <UserContext.Provider value={{ id, setId, name, setName, image, setImage, token, setToken, bearertoken, setBearerToken, newhabit, SetNewhabit, habits, setHabits}}>
                 <Routes>
                     <Route path="/" element={< Login />} />
                     <Route path="/cadastro" element={< SignUp />} />

@@ -164,12 +164,12 @@ const Input = styled.input`
     height: 45px;
     margin-bottom: 6px;
     padding-left: 10px;
+    font-size: 19.976px;
 
-    &::placeholder{
+    ::placeholder{
     font-family: 'Lexend Deca';
     font-style: normal;
     font-weight: 400;
-    font-size: 19.976px;
     line-height: 25px;
     color: #DBDBDB;
     }
