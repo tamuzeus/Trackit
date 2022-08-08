@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { ThreeDots } from 'react-loader-spinner'
+import "react-loader-spinner"
+import { daysarray } from "../services/daysarray";
 
 function Letters({ res, index }) {
 
@@ -17,35 +20,14 @@ function Letters({ res, index }) {
 
 export default function Createhabit() {
 
-    const daysarray = [
-        {
-            dia: 'D',
-        },
-        {
-            dia: 'S',
-        },
-        {
-            dia: 'T',
-        },
-        {
-            dia: 'Q',
-        },
-        {
-            dia: 'Q',
-        },
-        {
-            dia: 'S',
-        },
-        {
-            dia: 'S',
-        },
-    ]
+    const [clicked, setClicked] = useState(false)
+    // const [load, setload] = useState(false)
 
     return (
         <CreateHabitBody>
             <Input type='text' placeholder='nome do hábito' />
             <div>
-            {daysarray.map((res, index) => {
+                {daysarray.map((res, index) => {
                     return (<Letters
                         res={res.dia}
                         key={index}
@@ -55,7 +37,14 @@ export default function Createhabit() {
             </div>
             <InferiorBody>
                 <Cancel>Cancelar</Cancel>
-                <Salve>Salvar</Salve>
+                <div onClick={() => { setClicked(!clicked) }}>
+                    {clicked ?
+                        <Loadsave>
+                            <ThreeDots color="#FFFFFF" height={46} width={46} />
+                        </Loadsave>
+                        :
+                        <Salve>Salvar</Salve>}
+                </div>
             </InferiorBody>
         </CreateHabitBody>
     )
@@ -116,14 +105,14 @@ const DayButtons = styled.button`
     margin-right: 4px;
 `
 
-const InferiorBody = styled.div `
+const InferiorBody = styled.div`
     margin-top: 29px;
     display: grid;
     grid-template-columns: auto auto;
     justify-content: end;
 `
 
-const Cancel = styled.button `
+const Cancel = styled.button`
     border: none;
     margin: 0;
     padding: 0;
@@ -146,7 +135,7 @@ const Cancel = styled.button `
     margin-right: 20px;
 `
 
-const Salve = styled.button `
+const Salve = styled.button`
     border: none;
     margin: 0;
     padding: 0;
@@ -161,8 +150,6 @@ const Salve = styled.button `
     -webkit-appearance: none;
     width: 84px;
     height: 35px;
-    left: 257px;
-    top: 277px;
     background: #52B6FF;
     border-radius: 4.63636px;
     font-family: 'Lexend Deca';
@@ -172,5 +159,38 @@ const Salve = styled.button `
     line-height: 20px;
     text-align: center;
     color: #FFFFFF;
-    margin-right: 16px
+    margin-right: 16px;
 `
+
+const Loadsave = styled.button`
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    -webkit-appearance: none;
+    width: 84px;
+    height: 35px;
+    background: #52B6FF;
+    border-radius: 4.63636px;
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15.976px;
+    line-height: 20px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-right: 16px;
+    background: #52B6FF;
+    opacity: 0.7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+

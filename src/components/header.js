@@ -1,13 +1,16 @@
 import styled from "styled-components";
+import { useContext } from "react";
+import UserContext from "../context/context";
 
 export default function Header() {
+    const { image, setImage } = useContext(UserContext);
 
     return (
         <HeaderProfile>
             <TittleSite>Trackit</TittleSite>
 
             <ProfileImgBody>
-                <Img src="http://pm1.narvii.com/7903/18ebcadf76c2bb8dac09d9078962c1a08ac1b111r1-512-512v2_uhq.jpg"/>
+                <Img src={image}/>
             </ProfileImgBody>
         </HeaderProfile>
     )
@@ -40,10 +43,10 @@ const ProfileImgBody = styled.div`
     width: 51px;
     height: 51px;
     margin-right: 20px;
+  
 `
 
 const Img = styled.img`
-    object-fit: contain;
     border: transparent solid;
     border-radius: 50%;
     width: 100%;

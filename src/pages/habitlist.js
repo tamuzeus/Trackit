@@ -3,9 +3,23 @@ import Footer from "../components/footer"
 import styled from "styled-components";
 import Createhabit from "../components/createhabit";
 import Habits from "../components/habits";
-
+import { useContext } from "react";
+import UserContext from "../context/context";
 
 export default function Habitslist() {
+
+    const { id, setId } = useContext(UserContext);
+    const { name, setName } = useContext(UserContext);
+    const { image, setImage } = useContext(UserContext);
+    const { token, setToken } = useContext(UserContext);
+    const { bearertoken, setBearerToken } = useContext(UserContext);
+
+    console.log(id)
+    console.log(name)
+    console.log(image)
+    console.log(token)
+    console.log(bearertoken)
+
 
     return (
         <>

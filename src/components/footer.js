@@ -52,6 +52,12 @@ const FooterPage = styled.footer`
   p {
         font-size: 18px;
         color: #52B6FF;
+        width: 150px;
+        height: 40px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
   div {

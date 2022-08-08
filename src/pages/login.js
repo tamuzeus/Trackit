@@ -5,9 +5,18 @@ import { ThreeDots } from 'react-loader-spinner'
 import "react-loader-spinner"
 import { Link, useNavigate } from "react-router-dom";
 import { postLogin } from "../services/trackit";
+import { useContext } from "react";
+import UserContext from "../context/context";
 
 export default function Login() {
     const navigate = useNavigate()
+
+    const { id, setId } = useContext(UserContext);
+    const { name, setName } = useContext(UserContext);
+    const { image, setImage } = useContext(UserContext);
+    const { token, setToken } = useContext(UserContext);
+    const { bearertoken, setBearerToken } = useContext(UserContext);
+
 
     const [clicked, setClicked] = useState(false)
     const [form, setForm] = useState({
@@ -42,12 +51,21 @@ export default function Login() {
         })
         promise.then(res => {
             setload(false)
-            const config = {
+
+            const Bearertoken = {
                 headers: {
-                    Authorization:`Bearer ${res.data.token}`
+                    Authorization: `Bearer ${res.data.token}`
                 }
             }
-            console.log(config)
+            const token = res.data.token
+
+            setId(res.data.id)
+            setName(res.data.name)
+            setImage(res.data.image)
+            setToken(res.data.token)
+            setBearerToken(Bearertoken)
+
+
             navigate('/habitos');
         })
     }
@@ -59,13 +77,10 @@ export default function Login() {
             <div>
                 <img src={trackit} alt="trackit"></img>
             </div>
-
             <Forml>
                 <DivLoginInfos>
-                    <Input id="Email" type="email" placeholder="Email" onChange={handleForm} name='email' value={form.email} required disabled={load}/>
-                    <Input id="Password" type="password" placeholder="Senha" onChange={handleForm} name='password' value={form.password} required disabled={load}/>
-
-                    {/*"e" é a área  pega pelo onchange --- target capta o que foi pego ---- value retira o valor do que foi pego*/}
+                    <Input id="Email" type="email" placeholder="Email" onChange={handleForm} name='email' value={form.email} required disabled={load} />
+                    <Input id="Password" type="password" placeholder="Senha" onChange={handleForm} name='password' value={form.password} required disabled={load} />
                 </DivLoginInfos>
 
                 <div onClick={() => { setClicked(!clicked) }}>
@@ -77,16 +92,11 @@ export default function Login() {
                             <p>Entrar</p>
                         </ButtonEnter>}
                 </div>
+
             </Forml>
-
-
-
             <ButtonSignUp>
                 <Link to='cadastro'><p>Não tem uma conta? Cadastre-se!</p></Link>
             </ButtonSignUp>
-
-
-
         </ArticleComponent>
     )
 }
@@ -195,19 +205,20 @@ const ButtonSignUp = styled.button`
 `
 
 const Input = styled.input`
-    background: #FFFFFF;
+    background: ${props => props.disabled ? '#F2F2F2;' : '#FFFFFF'};
+    color: ${props => props.disabled ? '#AFAFAF;' : 'black'};;
     border: 1px solid #D5D5D5;
     border-radius: 5px;
     width: 303px;
     height: 45px;
     margin-bottom: 6px;
     padding-left: 10px;
+    font-size: 19.976px;
 
     &::placeholder{
     font-family: 'Lexend Deca';
     font-style: normal;
     font-weight: 400;
-    font-size: 19.976px;
     line-height: 25px;
     color: #DBDBDB;
     }

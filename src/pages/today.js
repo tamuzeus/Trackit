@@ -3,6 +3,9 @@ import Footer from "../components/footer"
 import styled from "styled-components";
 import Vector from "../assents/Vector.png";
 import { useState } from "react";
+import dayjs from "dayjs";
+import { weekday } from "../services/daysarray";
+
 
 
 export default function Today() {
@@ -15,7 +18,7 @@ export default function Today() {
 
             <TodayBody>
                 <TodayTittleSite>
-                    <div><h2>Segunda, 17/05</h2></div>
+                    <div><h3>{weekday}, {dayjs().format('DD/MM')}</h3></div>
                     <div><p>Nenhum hábito concluído ainda</p></div>
                 </TodayTittleSite>
 
@@ -54,8 +57,7 @@ const TodayBody = styled.div`
 const TodayTittleSite = styled.div`
     margin-bottom: 28px;
 
-    h2{
-    width: 172px;
+    h3{
     height: 29px;
     font-family: 'Lexend Deca';
     font-style: normal;
@@ -73,6 +75,17 @@ const TodayTittleSite = styled.div`
     line-height: 22px;
     color: #BABABA;
     }
+`
+
+const Weekday = styled.p`
+    width: 172px;
+    height: 29px;
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22.976px;
+    line-height: 29px;
+    color: #126BA5;
 `
 
 const HabitArea = styled.div`
@@ -115,7 +128,7 @@ const Check = styled.button`
     -webkit-appearance: none;
     width: 69px;
     height: 69px;
-    background: ${props => props.background? '#E7E7E7': '#8FC549'};
+    background: ${props => props.background? '#8FC549 ': '#E7E7E7'};
     border-radius: 5px;
     display: flex;
     justify-content: center;

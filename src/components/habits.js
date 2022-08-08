@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { daysarray } from "../services/daysarray";
 
-function Letters({ res, index}) {
+function Letters({ res, index, condition}) {
 
     const [areacolor, setAreacolor] = useState(false)
     const [lettercolor, setLettercolor] = useState(false)
@@ -16,30 +17,6 @@ function Letters({ res, index}) {
 }
 
 export default function Habits() {
-
-    const daysarray = [
-        {
-            dia: 'D',
-        },
-        {
-            dia: 'S',
-        },
-        {
-            dia: 'T',
-        },
-        {
-            dia: 'Q',
-        },
-        {
-            dia: 'Q',
-        },
-        {
-            dia: 'S',
-        },
-        {
-            dia: 'S',
-        },
-    ]
 
     return (
         <HabitBody>
@@ -126,7 +103,7 @@ const DayButtons = styled.button`
     font-size: 19.976px;
     line-height: 25px;
     color: ${props => props.color ? '#FFFFFF' : '#DBDBDB;'};
-    background: ${props => props.background ? '#CFCFCF' : '#FFFFFF;'};
+    background: ${props => props.background ? '#CFCFCF' : '#FFFFFF'};
     border: 1px solid #D5D5D5;
     border-radius: 5px;
     margin-right: 4px;
