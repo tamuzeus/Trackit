@@ -18,13 +18,13 @@ function Letters({ name, days }) {
     )
 }
 
-function BodyHabit({name, days, del}) {
+function BodyHabit({name, days, del, id}) {
 
     return (
         <HabitBody>
             <SuperiorBody>
                 <HabitName>{name}</HabitName>
-                <Trash onClick={() => del}>
+                <Trash onClick={() => del(id)}>
                     <ion-icon name="trash-outline"></ion-icon>
                 </Trash>
             </SuperiorBody>
@@ -56,11 +56,9 @@ export default function Habits({refresh, setRefresh}) {
 
     function deletebutton (value){
         const promise = deleteHabits(value, bearertoken)
+        setRefresh(!refresh)
         return promise
     }
-
-    
-    
 
     return (
         <>
@@ -69,6 +67,7 @@ export default function Habits({refresh, setRefresh}) {
         days={array.days}
         del={deletebutton}
         key={index}
+        id={array.id}
         />)}
         </>
     )
