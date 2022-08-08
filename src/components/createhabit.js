@@ -20,7 +20,7 @@ function Letters({ id, day, handleDays }) {
     )
 }
 
-export default function Createhabit() {
+export default function Createhabit({refresh, setRefresh}) {
 
     const [clicked, setClicked] = useState(false)
     const [form, setForm] = useState({
@@ -77,6 +77,7 @@ export default function Createhabit() {
             setload(false)
             setClicked(false)
             SetNewhabit(false)
+            setRefresh(!refresh)
         })
     }
 

@@ -64,7 +64,7 @@ export default function Login() {
             setToken(token)
             setBearerToken(Bearertoken)
 
-            navigate('/hoje');
+            navigate('/habitos');
         })
     }
 

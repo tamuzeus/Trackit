@@ -11,6 +11,8 @@ export default function Habitslist() {
 
     const { newhabit, SetNewhabit, habits, setHabits, bearertoken} = useContext(UserContext);
 
+    const [refresh, setRefresh] = useState(false)
+
     useEffect(() => {
         const promise = getHabits(bearertoken)
         promise.catch((res) => {
@@ -19,7 +21,7 @@ export default function Habitslist() {
         promise.then((res) => {
             setHabits(res.data)
         })
-    }, [])
+    }, [refresh])
 
     return (
         <>
@@ -31,11 +33,10 @@ export default function Habitslist() {
                         <Buttonplus onClick={() => { SetNewhabit(true) }}><p>+</p></Buttonplus>
                     </MyHabits>
 
-                    {newhabit ? <Createhabit /> : <></>}
-
+                    {newhabit ? <Createhabit setRefresh={setRefresh} refresh={refresh}/> : <></>}
 
                     {habits.length !== 0 ? 
-                        <Habits /> :
+                        <Habits setRefresh={setRefresh} refresh={refresh}/> :
                         <Nohabits>
                             <p>
                                 Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!

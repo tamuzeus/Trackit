@@ -41,7 +41,7 @@ function BodyHabit({name, days, del}) {
     )
 }
 
-export default function Habits() {
+export default function Habits({refresh, setRefresh}) {
     const { bearertoken, setBearerToken, id, habits, setHabits } = useContext(UserContext);
 
     useEffect(() => {
@@ -54,11 +54,13 @@ export default function Habits() {
         })
     }, [])
 
-    function deletebutton (){
-        const promise = deleteHabits(id, bearertoken)
-        promise.catch(console.log('error'))
-        promise.then(console.log('ok'))
+    function deletebutton (value){
+        const promise = deleteHabits(value, bearertoken)
+        return promise
     }
+
+    
+    
 
     return (
         <>
